@@ -16,8 +16,9 @@ services:
   donut-server:
     build: .
     environment:
-      PORT: 8080
       NODE_ENV: development
+      PORT: 8080
+      MYSQL_CONNECTION_STRING: mysql://pdns:pdns@database:3306/pdns
     restart: always
     volumes:
       - ../packages/server:/app

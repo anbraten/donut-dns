@@ -31,5 +31,5 @@
       }
     }
   },
-  "mysql": "mysql://pdns:pdns@database:3306/pdns"
+  "mysql": "MYSQL_CONNECTION_STRING"
 }
