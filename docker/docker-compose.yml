@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  database:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: 'pdns'
+      MYSQL_USER: 'pdns'
+      MYSQL_PASSWORD: 'pdns'
+      MYSQL_ROOT_PASSWORD: 'root'
+    restart: always
+    volumes:
+      - database-data:/var/lib/mysql
+
+  donut-server:
+    build: .
+    environment:
+      PORT: 8080
+      NODE_ENV: development
+    restart: always
+    volumes:
+      - ../packages/server:/app
+    depends_on:
+      - database
+
+  donut-app:
+    build: .
+    environment:
+      PORT: 8080
+      NODE_ENV: development
+      NUXT_HOST: 0.0.0.0
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ../packages/app:/app
+    depends_on:
+      - donut-server
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: database
+    ports:
+      - 8383:80
+    restart: always
+    depends_on:
+      - database
+
+volumes:
+  database-data:

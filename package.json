@@ -1,0 +1,10 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.18.3"
+  },
+  "scripts": {
+    "dev": "cd docker/ && docker-compose up"
+  }
+}
